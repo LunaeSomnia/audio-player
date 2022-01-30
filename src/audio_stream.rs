@@ -7,6 +7,7 @@ use rb::{Producer, RbConsumer, SpscRb, RB};
 const BUFFER_SIZE: usize = 4096;
 
 pub struct AudioStream {
+    #[allow(dead_code)]
     ring_buffer: SpscRb<f32>,
     cpal_stream: Stream,
 }
@@ -45,7 +46,7 @@ impl AudioStream {
     }
 
     pub fn stop(&self) -> Result<(), PauseStreamError> {
-        self.ring_buffer.clear();
+        //self.ring_buffer.clear();
         self.cpal_stream.pause()
     }
 }

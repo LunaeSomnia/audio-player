@@ -10,3 +10,10 @@ rb = "0.4.0"
 cpal = "0.13.4"
 hound = "3.4.0"
 basedrop = "0.1.2"
+
+eframe = "0.16.0"
+serde = { version = "1", features = ["derive"], optional = true }
+
+[features]
+default = []
+persistence = ["eframe/persistence", "serde"]

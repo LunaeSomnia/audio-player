@@ -94,13 +94,3 @@ impl PartialEq for AudioTrack {
         //&& self.volume == other.volume
     }
 }
-
-pub struct AudioTrackHandler<'a> {
-    tr_ref: &'a mut AudioTrack,
-}
-
-impl<'a> AudioTrackHandler<'a> {
-    pub fn set_volume(&mut self, new_volume: f32) {
-        self.tr_ref.set_volume(new_volume)
-    }
-}

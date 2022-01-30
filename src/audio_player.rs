@@ -1,6 +1,6 @@
 use rb::{Producer, RbProducer};
 
-use crate::audio_track::{AudioTrack, AudioTrackHandler};
+use crate::audio_track::AudioTrack;
 
 pub struct AudioPlayer {
     tracks: Vec<AudioTrack>,

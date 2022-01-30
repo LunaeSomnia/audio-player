@@ -2,6 +2,6 @@
 
 A simple audio player built using Rust
 
-*Same subject to change*
+*Name subject to change*
 
 **TODO: Fill this**

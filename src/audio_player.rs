@@ -1,6 +1,6 @@
 use rb::{Producer, RbProducer};
 
-use crate::audio_track::AudioTrack;
+use crate::audio_track::{AudioTrack, AudioTrackHandler};
 
 pub struct AudioPlayer {
     tracks: Vec<AudioTrack>,
@@ -15,18 +15,34 @@ impl AudioPlayer {
         }
     }
 
-    pub fn attach(&mut self, track: AudioTrack) {
-        self.tracks.push(track);
+    pub fn attach(&mut self, track: AudioTrack) -> bool {
+        if !self.tracks.contains(&track) {
+            self.tracks.push(track);
+            true
+        } else {
+            false
+        }
     }
 
-    pub fn advance(&mut self) {
+    pub fn get(&mut self, track_name: &str) -> Option<&mut AudioTrack> {
+        self.tracks
+            .iter_mut()
+            .find(|t| t.name() == track_name.to_string())
+    }
+
+    pub fn advance(&mut self) -> bool {
         let mut sum: f32 = 0.0;
 
         for tr in self.tracks.iter_mut() {
             sum += tr.advance();
         }
 
-        self.output.write_blocking(&[sum]);
+        // If we could advance, return true
+        if let None = self.output.write_blocking(&[sum]) {
+            false
+        } else {
+            true
+        }
     }
 }
 

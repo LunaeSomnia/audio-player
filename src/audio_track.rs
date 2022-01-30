@@ -34,14 +34,16 @@ impl From<(hound::SampleFormat, u16)> for SampleFormat {
 }
 
 pub struct AudioTrack {
+    name: String,
     sample_format: SampleFormat,
     #[allow(dead_code)]
     sample_rate: u32,
     holder: WavReader<BufReader<File>>,
+    volume: f32,
 }
 
 impl AudioTrack {
-    pub fn new(file: AudioFile) -> Self {
+    pub fn new(name: &str, file: AudioFile) -> Self {
         let holder = WavReader::new(file.clone().reader).unwrap();
 
         let spec = holder.spec();
@@ -49,17 +51,27 @@ impl AudioTrack {
         let sr = spec.sample_rate;
 
         Self {
+            name: name.to_string(),
             sample_format: sf,
             sample_rate: sr,
             holder,
+            volume: 0.8,
         }
+    }
+
+    pub fn name(&self) -> &str {
+        &self.name
     }
 
     pub fn advance(&mut self) -> f32 {
         match self.create_samples().read_next() {
-            Some(x) => x,
+            Some(x) => x * self.volume,
             None => 0.0,
         }
+    }
+
+    pub fn set_volume(&mut self, new_volume: f32) {
+        self.volume = new_volume;
     }
 
     fn create_samples(&mut self) -> WavSampleReader {
@@ -73,9 +85,22 @@ impl AudioTrack {
     }
 }
 
-#[derive(Clone)]
-pub struct AudioTrackHandle<'a> {
-    #[allow(dead_code)]
-    fileref: &'a AudioTrack,
-    pub i: usize,
+impl PartialEq for AudioTrack {
+    fn eq(&self, other: &Self) -> bool {
+        self.name == other.name
+        //&& self.sample_format == other.sample_format
+        //&& self.sample_rate == other.sample_rate
+        //&& self.holder == other.holder
+        //&& self.volume == other.volume
+    }
+}
+
+pub struct AudioTrackHandler<'a> {
+    tr_ref: &'a mut AudioTrack,
+}
+
+impl<'a> AudioTrackHandler<'a> {
+    pub fn set_volume(&mut self, new_volume: f32) {
+        self.tr_ref.set_volume(new_volume)
+    }
 }

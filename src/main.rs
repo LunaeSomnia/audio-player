@@ -8,7 +8,6 @@ mod audio_file;
 mod audio_player;
 mod audio_stream;
 mod audio_track;
-mod mixer;
 mod wavreader;
 
 const FILE_PATH1: &str = "./testsamples/mel1_i24.wav";
@@ -22,11 +21,33 @@ fn main() {
 
     stream.play().unwrap();
 
-    player.attach(AudioTrack::new(AudioFile::open(FILE_PATH1).unwrap()));
-    player.attach(AudioTrack::new(AudioFile::open(FILE_PATH2).unwrap()));
+    player.attach(AudioTrack::new(
+        "melody",
+        AudioFile::open(FILE_PATH1).unwrap(),
+    ));
+    player.attach(AudioTrack::new("sub", AudioFile::open(FILE_PATH2).unwrap()));
+
+    let change_vol_1 = 330000;
+    let change_vol_2 = 600000;
+    let mut curr = 0;
+
+    println!("Play loop");
 
     loop {
-        player.advance();
+        if player.advance() {
+            curr += 1;
+            if curr == change_vol_1 {
+                println!("Changing volume");
+                player.get("melody").unwrap().set_volume(0.2);
+                player.get("sub").unwrap().set_volume(0.9);
+            }
+
+            if curr == change_vol_2 {
+                println!("Changing volume");
+                player.get("melody").unwrap().set_volume(0.9);
+                player.get("sub").unwrap().set_volume(0.2);
+            }
+        }
     }
 
     stream.stop().unwrap();

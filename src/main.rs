@@ -1,3 +1,5 @@
+use std::{thread, time::Duration};
+
 use audio_file::AudioFile;
 use audio_player::AudioPlayer;
 use audio_track::AudioTrack;
@@ -9,18 +11,14 @@ mod audio_track;
 mod mixer;
 mod wavreader;
 
-const FILE_PATH1: &str = "./testsamples/own/mel1_i24.wav";
-const FILE_PATH2: &str = "./testsamples/own/silence_i24.wav";
+const FILE_PATH1: &str = "./testsamples/mel1_i24.wav";
+const FILE_PATH2: &str = "./testsamples/sub_i24.wav";
 
 fn main() {
-    let mut x = vec![];
-
-    x.push(2);
-
-    x.remove(0);
-
     let (stream, prod) = audio_stream::AudioStream::new();
     let mut player = AudioPlayer::new(prod);
+
+    thread::sleep(Duration::from_millis(1));
 
     stream.play().unwrap();
 

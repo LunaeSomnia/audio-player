@@ -1,9 +1,14 @@
 #![allow(dead_code)]
 
-mod audio;
+mod audio {
+    pub mod audiofile;
+    pub mod audiostream;
+}
 mod audio_player;
 mod audio_track;
-mod ui;
+mod ui {
+    pub mod app;
+}
 mod wavreader;
 
 mod file_dialog;

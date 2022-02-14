@@ -1,3 +1,5 @@
+#![allow(dead_code)]
+
 mod audio;
 mod audio_player;
 mod audio_track;

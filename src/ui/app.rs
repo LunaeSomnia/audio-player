@@ -2,9 +2,9 @@ use eframe::{egui, epi};
 
 use std::sync::{Arc, Mutex};
 
-use crate::audio_file::AudioFile;
+use crate::audio::audiofile::AudioFile;
+use crate::audio::audiostream::AudioStream;
 use crate::audio_player::AudioPlayer;
-use crate::audio_stream::AudioStream;
 use crate::audio_track::AudioTrack;
 
 pub struct AppCtx {

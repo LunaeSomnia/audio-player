@@ -1,9 +1,10 @@
-mod audio_file;
+mod audio;
 mod audio_player;
-mod audio_stream;
 mod audio_track;
 mod ui;
 mod wavreader;
+
+mod file_dialog;
 
 const FILE_PATH1: &str = "./testsamples/mel1_i24.wav";
 const FILE_PATH2: &str = "./testsamples/sub_i24.wav";

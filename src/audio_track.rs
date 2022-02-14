@@ -2,7 +2,7 @@ use std::{fs::File, io::BufReader};
 
 use hound::WavReader;
 
-use crate::{audio_file::AudioFile, wavreader::WavSampleReader};
+use crate::{audio::audiofile::AudioFile, wavreader::WavSampleReader};
 
 const VOLUME_STEPS: usize = 10000;
 
